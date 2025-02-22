@@ -52,6 +52,10 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
         mutableStateOf("")
     }
 
+    var isLoading by remember{
+        mutableStateOf(false)
+    }
+
     var context = LocalContext.current
 
     Column (
@@ -131,16 +135,20 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
 
             val context = LocalContext.current
             Button(onClick = {
-
+                isLoading = true
                 if(password == cpassword){
                     authViewModel.signup(firstName, lastName, email, phone, username, password){success,errorMessage->
                         if(success){
-                            Toast.makeText(context, //Hello World!
+                            isLoading = false
+                            Toast.makeText(context,
                                 "Successful Registration!",
                                 Toast.LENGTH_SHORT).show()
-                            navController.navigate(Routes.loginScreen)
+                            navController.navigate(Routes.loginScreen){
+                                popUpTo(Routes.getstartedScreen){inclusive = true}
+                            }
 
                         }else{
+                            isLoading = false
                             AppUtil.showToast(context,errorMessage?:"Something went wrong")
                         }
 
@@ -148,7 +156,9 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
                 }else{
                     Toast.makeText(context, "Password does not match", Toast.LENGTH_SHORT).show()
                 }
-            }){
+            },
+                enabled = !isLoading
+            ){
                 Text(text = "Register")
             }
         }

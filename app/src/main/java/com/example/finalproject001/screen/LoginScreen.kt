@@ -27,11 +27,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.finalproject001.AppUtil
 import com.example.finalproject001.Routes
+import com.example.finalproject001.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(navController: NavController){
+fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()){
 
     val context = LocalContext.current
 
@@ -41,6 +44,10 @@ fun LoginScreen(navController: NavController){
 
     var password by remember{
         mutableStateOf("")
+    }
+
+    var isLoading by remember{
+        mutableStateOf(false)
     }
 
     BackHandler {
@@ -80,17 +87,24 @@ fun LoginScreen(navController: NavController){
         Spacer(modifier = Modifier.height(4.dp))
 
         Button(onClick = {
-            if(username == "admin" && password == "admin"){
-                navController.navigate(Routes.mainmenuScreen){
-                    popUpTo(Routes.loginScreen){inclusive = true}
+            isLoading = true
+            authViewModel.login(username, password){success,errorMessage->
+                if(success){
+                    isLoading = false
+                    Toast.makeText(context,
+                        "Successful Login!",
+                        Toast.LENGTH_SHORT).show()
+                    navController.navigate(Routes.mainmenuScreen){
+                        popUpTo(Routes.getstartedScreen){inclusive = true}
+                    }
+                }else{
+                    isLoading = false
+                    AppUtil.showToast(context,errorMessage?:"Something went wrong")
                 }
-                Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
             }
-            else{
-                Toast.makeText(context, "Wrong Email or Password!", Toast.LENGTH_SHORT).show()
-            }
+
         }){
-            Text(text = "Login")
+            Text(text = if(isLoading) "Logging in" else "Login")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
