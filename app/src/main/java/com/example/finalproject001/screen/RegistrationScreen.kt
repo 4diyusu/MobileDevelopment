@@ -135,7 +135,7 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
                 if(password == cpassword){
                     authViewModel.signup(firstName, lastName, email, phone, username, password){success,errorMessage->
                         if(success){
-                            Toast.makeText(context, //Hello!
+                            Toast.makeText(context, //Hello World!
                                 "Successful Registration!",
                                 Toast.LENGTH_SHORT).show()
                             navController.navigate(Routes.loginScreen)
