@@ -25,7 +25,7 @@ import com.example.finalproject001.R
 import com.example.finalproject001.Routes
 
 @Composable
-fun GetStartedScreen(navController: NavController){
+fun GetStartedScreen(modifier: Modifier = Modifier, navController: NavController){
 
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.finalproject001.Routes
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
 fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modifier = Modifier){
@@ -41,8 +43,9 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
         Spacer(modifier = Modifier.height(5.dp))
 
         Button(onClick = {
-            navController.navigate(Routes.getstartedScreen){
-                popUpTo(Routes.getstartedScreen){inclusive = true}
+            Firebase.auth.signOut()
+            navController.navigate(Routes.loginScreen){
+                popUpTo(Routes.mainmenuScreen){inclusive = true}
             }
             Toast.makeText(context, "Successfully Logged out!", Toast.LENGTH_SHORT).show()
         }){

@@ -32,7 +32,7 @@ import com.example.finalproject001.Routes
 
 
 @Composable
-fun GreetingScreen(navController: NavController){
+fun GreetingScreen(modifier: Modifier = Modifier, navController: NavController){
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -50,7 +50,9 @@ fun GreetingScreen(navController: NavController){
         Spacer(modifier = Modifier.height(4.dp))
 
         Button(onClick = {
-            navController.navigate(Routes.getstartedScreen)
+            navController.navigate(Routes.getstartedScreen) {
+                popUpTo(Routes.greetingScreen) { inclusive = true }
+            }
         }){
             Text(text = "Get Started", fontStyle = FontStyle.Italic)
         }

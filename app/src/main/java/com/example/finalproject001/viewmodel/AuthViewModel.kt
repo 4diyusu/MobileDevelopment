@@ -12,7 +12,15 @@ class AuthViewModel : ViewModel(){
 
     private val firestore = Firebase.firestore
 
-    fun login(){
+    fun login(username: String, password: String, onResult : (Boolean,String?)-> Unit){
+        auth.signInWithEmailAndPassword(username,password)
+            .addOnCompleteListener{
+                if(it.isSuccessful){
+                    onResult(true,null)
+                }else{
+                    onResult(false,it.exception?.localizedMessage)
+                }
+            }
 
     }
 

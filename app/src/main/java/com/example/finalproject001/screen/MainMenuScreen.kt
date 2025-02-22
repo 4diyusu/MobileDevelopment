@@ -34,7 +34,7 @@ import com.example.finalproject001.screen.mainmenu.NotificationPage
 
 
 @Composable
-fun MainMenuScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun MainMenuScreen(modifier : Modifier = Modifier, navController: NavController) {
 
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home,0),
