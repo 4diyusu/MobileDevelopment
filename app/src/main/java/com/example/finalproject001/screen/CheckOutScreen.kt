@@ -26,7 +26,7 @@ import com.example.finalproject001.R
 import com.example.finalproject001.Routes
 
 @Composable
-fun CheckOutScreen(navController: NavController){
+fun CheckOutScreen(modifier: Modifier = Modifier, navController: NavController){
 
     val context = LocalContext.current
 

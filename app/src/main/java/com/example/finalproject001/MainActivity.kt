@@ -27,27 +27,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Box(Modifier.safeDrawingPadding())
-            val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Routes.greetingScreen, builder ={
-                composable(Routes.greetingScreen){
-                    GreetingScreen(navController)
-                }
-                composable(Routes.getstartedScreen){
-                    GetStartedScreen(navController)
-                }
-                composable(Routes.registrationScreen){
-                    RegistrationScreen(navController)
-                }
-                composable(Routes.loginScreen){
-                    LoginScreen(navController)
-                }
-                composable(Routes.mainmenuScreen){
-                    MainMenuScreen(navController)
-                }
-                composable(Routes.checkoutScreen){
-                    CheckOutScreen(navController)
-                }
-            })
+            AppNavigation()
         }
     }
 }

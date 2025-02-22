@@ -28,7 +28,7 @@ import com.example.finalproject001.Routes
 import com.example.finalproject001.viewmodel.AuthViewModel
 
 @Composable
-fun RegistrationScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()){
+fun RegistrationScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel = viewModel()){
 
     var firstName by remember{
         mutableStateOf("")

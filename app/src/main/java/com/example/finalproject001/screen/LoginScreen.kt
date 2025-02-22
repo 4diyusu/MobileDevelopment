@@ -34,7 +34,7 @@ import com.example.finalproject001.Routes
 import com.example.finalproject001.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()){
+fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel = viewModel()){
 
     val context = LocalContext.current
 
@@ -73,7 +73,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
         OutlinedTextField(value = username, onValueChange = {
             username = it;
         }, label = {
-            Text(text = "Username")
+            Text(text = "Email")
         })
 
         Spacer(modifier = Modifier.height(4.dp))

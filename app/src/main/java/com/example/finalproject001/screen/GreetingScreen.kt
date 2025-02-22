@@ -32,7 +32,7 @@ import com.example.finalproject001.Routes
 
 
 @Composable
-fun GreetingScreen(navController: NavController){
+fun GreetingScreen(modifier: Modifier = Modifier, navController: NavController){
 
     Column(
         modifier = Modifier.fillMaxSize(),
