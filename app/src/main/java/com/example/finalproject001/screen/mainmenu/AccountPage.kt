@@ -44,6 +44,9 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
 
         Button(onClick = {
             Firebase.auth.signOut()
+            navController.navigate(Routes.loginScreen){
+                popUpTo(Routes.mainmenuScreen){inclusive = true}
+            }
             Toast.makeText(context, "Successfully Logged out!", Toast.LENGTH_SHORT).show()
         }){
             Text(text = "Logout")
