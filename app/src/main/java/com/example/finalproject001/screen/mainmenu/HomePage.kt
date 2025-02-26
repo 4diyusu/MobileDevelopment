@@ -24,14 +24,20 @@ import com.example.finalproject001.data.DataProvider
 fun HomePage(modifier: androidx.compose.ui.Modifier = Modifier){
     val products = remember { DataProvider.productList }
 
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+    Column(
+        modifier = modifier.fillMaxSize()
+            .background(Color(0xFF03A9F4)),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(
-            items = products
+        LazyColumn(
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            ProductListItem(productData = it)
+            items(
+                items = products
+            ) {
+                ProductListItem(productData = it)
+            }
         }
     }
-
 }
