@@ -93,6 +93,15 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, aut
 
         Button(onClick = {
             isLoading = true
+
+            if(username == "" || password == ""){
+                isLoading = false
+                Toast.makeText(context,
+                    "Please enter Email and Password",
+                    Toast.LENGTH_SHORT).show()
+                return@Button
+            }
+
             authViewModel.login(username, password){success,errorMessage->
                 if(success){
                     isLoading = false
