@@ -12,6 +12,8 @@ import com.example.finalproject001.screen.LoginScreen
 import com.example.finalproject001.screen.MainMenuScreen
 import com.example.finalproject001.screen.RegistrationScreen
 import androidx.compose.ui.Modifier
+import com.example.finalproject001.data.ProductData
+import com.example.finalproject001.screen.mainmenu.HomePage
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -40,5 +42,4 @@ fun AppNavigation(modifier: Modifier = Modifier){
             CheckOutScreen(modifier, navController)
         }
     })
-
 }
