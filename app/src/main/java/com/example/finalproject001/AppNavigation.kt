@@ -21,55 +21,34 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier){
+fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val isLoggedIn = Firebase.auth.currentUser!=null
-    val firstPage = if(isLoggedIn) Routes.mainmenuScreen else Routes.greetingScreen
-    NavHost(navController = navController, startDestination = firstPage, builder ={
-        composable(Routes.greetingScreen){
+    val isLoggedIn = Firebase.auth.currentUser != null
+    val firstPage = if (isLoggedIn) Routes.mainmenuScreen else Routes.greetingScreen
+
+    NavHost(navController = navController, startDestination = firstPage) {
+        composable(Routes.greetingScreen) {
             GreetingScreen(modifier, navController)
         }
-        composable(Routes.getstartedScreen){
+        composable(Routes.getstartedScreen) {
             GetStartedScreen(modifier, navController)
         }
-        composable(Routes.registrationScreen){
+        composable(Routes.registrationScreen) {
             RegistrationScreen(modifier, navController)
         }
-        composable(Routes.loginScreen){
+        composable(Routes.loginScreen) {
             LoginScreen(modifier, navController)
         }
-        composable(Routes.mainmenuScreen){
+        composable(Routes.mainmenuScreen) {
             MainMenuScreen(modifier, navController)
         }
-        composable(Routes.checkoutScreen){
+        composable(Routes.checkoutScreen) {
             CheckOutScreen(modifier, navController)
         }
-        composable(
-            route = Routes.itemScreen + "/{id}/{title}/{price}/{description}/{productImageId}",
-            arguments = listOf(
-                navArgument("id") { type = NavType.IntType },
-                navArgument("title") { type = NavType.StringType },
-                navArgument("price") { type = NavType.FloatType },
-                navArgument("description") { type = NavType.StringType },
-                navArgument("productImageId") { type = NavType.IntType }
-            )
-        ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id") ?: 0
-            val title = backStackEntry.arguments?.getString("title") ?: "Unknown"
-            val price = backStackEntry.arguments?.getFloat("price")?.toDouble() ?: 0.0
-            val description = backStackEntry.arguments?.getString("description") ?: "No Description"
-            val productImageId = backStackEntry.arguments?.getInt("productImageId") ?: R.drawable.scientific_calculator_casiofx570ms
-
-
-            ItemScreen(
-                navController = navController,
-                id = id,
-                title = title,
-                price = price,
-                description = description,
-                productImageId = productImageId,
-                modifier = Modifier
-            )
+        // ✅ Updated ItemScreen to accept a productId as an argument
+        composable("${Routes.itemScreen}/{productId}") { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId") ?: "0"
+            ItemScreen(navController = navController, productId = productId)
         }
-    })
+    }
 }

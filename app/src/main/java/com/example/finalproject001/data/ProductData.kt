@@ -8,5 +8,5 @@ data class ProductData(
     val title: String,
     val price: Double,
     val description: String,
-    @DrawableRes val productImageId: Int
+    val productImageId: Int
 ) : Serializable

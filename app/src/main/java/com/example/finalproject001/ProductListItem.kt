@@ -29,28 +29,25 @@ import com.example.finalproject001.data.DataProvider.product
 import com.example.finalproject001.data.ProductData
 
 @Composable
-fun ProductListItem(productData: ProductData, navController: NavController){
+fun ProductListItem(productData: ProductData, navController: NavController) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(16.dp))
-
     ) {
         Row(
-            Modifier.clickable{
-                navController.navigate(
-                    "item_screen/${product.id}/${product.title}/${product.price}/${product.description}/${product.productImageId}"
-                )
+            Modifier.clickable {
+                navController.navigate("${Routes.itemScreen}/${productData.id}")
             }
-        ){
+        ) {
             ProductImage(productData = productData)
             Column(
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth()
                     .align(Alignment.CenterVertically)
-            ){
+            ) {
                 Text(text = productData.title, style = typography.titleMedium)
                 Text(text = "VIEW DETAIL", style = typography.bodyMedium)
             }

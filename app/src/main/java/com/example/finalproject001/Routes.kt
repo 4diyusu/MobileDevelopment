@@ -7,5 +7,5 @@ object Routes {
     var loginScreen = "login_Screen"
     var mainmenuScreen = "mainmenu_Screen"
     var checkoutScreen = "checkout_Screen"
-    var itemScreen = "item_screen/{id}/{title}/{price}/{description}/{productImageId}"
+    var itemScreen = "item_screen"
 }
