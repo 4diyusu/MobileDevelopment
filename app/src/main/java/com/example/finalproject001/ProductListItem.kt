@@ -2,6 +2,7 @@ package com.example.finalproject001
 
 import android.media.Image
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.finalproject001.data.ProductData
 
 @Composable
@@ -31,7 +34,9 @@ fun ProductListItem(productData: ProductData){
         shape = RoundedCornerShape(corner = CornerSize(16.dp))
 
     ) {
-        Row{
+        Row(
+            Modifier.clickable{ rememberNavController() }
+        ){
             ProductImage(productData = productData)
             Column(
                 modifier = Modifier

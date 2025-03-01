@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject001.NavItem
+import com.example.finalproject001.data.ProductData
 import com.example.finalproject001.screen.mainmenu.AccountPage
 import com.example.finalproject001.screen.mainmenu.CartPage
 import com.example.finalproject001.screen.mainmenu.HomePage
@@ -74,7 +75,7 @@ fun MainMenuScreen(modifier : Modifier = Modifier, navController: NavController)
                     )
                 }
             }
-        }
+        },
     ) { innerPadding ->
         ContentScreen(navController = navController,modifier = Modifier.padding(innerPadding), selectedIndex)
 
