@@ -90,7 +90,7 @@ fun Badge(content: @Composable () -> Unit) {
 @Composable
 fun ContentScreen(navController: NavController, modifier: Modifier = Modifier, selectedIndex : Int) {
     when(selectedIndex){
-        0-> HomePage()
+        0-> HomePage(modifier, navController)
         1-> NotificationPage()
         2-> CartPage(navController)
         3-> AccountPage(navController)

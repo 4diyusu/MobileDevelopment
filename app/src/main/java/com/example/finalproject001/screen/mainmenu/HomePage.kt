@@ -38,7 +38,7 @@ fun HomePage(modifier: androidx.compose.ui.Modifier = Modifier, navController: N
             items(
                 items = products,
                 itemContent = {
-                    ProductListItem(productData = it)
+                    ProductListItem(productData = it, navController)
                 }
             )
         }

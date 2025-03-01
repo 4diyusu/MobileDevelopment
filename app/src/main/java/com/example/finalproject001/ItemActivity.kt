@@ -16,7 +16,6 @@ class ItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent{
             Box(Modifier.safeDrawingPadding())
-            ItemNavigation()
         }
     }
 }
