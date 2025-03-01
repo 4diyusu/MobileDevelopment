@@ -32,38 +32,61 @@ import com.example.finalproject001.data.DataProvider
 import com.example.finalproject001.data.ProductData
 
 @Composable
-fun ItemScreen(modifier: Modifier,
-               navController: NavController,
-               id: Int,
-               title: String,
-               price: Double,
-               description: String,
-               productImageId: Int = 0)
-{
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+fun ItemScreen(
+    navController: NavController,
+    productId: String // Extracted from navigation arguments
+) {
+    val product = DataProvider.productList.find { it.id.toString() == productId }
+
+    if (product != null) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = product.productImageId),
+                contentDescription = "Product Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = product.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Price: Php ${product.price}", fontSize = 18.sp, color = Color.Gray)
+            Text(text = product.description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
+
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(onClick = { navController.popBackStack() }) {
+                Text(text = "Back to Products")
+            }
+        }
+    } else {
+        Text(
+            text = "Product not found",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+
+@Composable
+fun ItemDetails(product: ProductData) {
+    Column(modifier = Modifier.padding(16.dp)) {
         Image(
-            painter = painterResource(id = productImageId),
-            contentDescription = "Product Image",
+            painter = painterResource(id = product.productImageId), // ✅ Ensure correct image reference
+            contentDescription = product.title,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Text(text = "Price: Php $price", fontSize = 18.sp, color = Color.Gray)
-        Text(text = description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
-
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(onClick = { navController.popBackStack() }) {
-            Text(text = "Back to Products")
-        }
+        Text(text = "Product Name: ${product.title}", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Price: PHP ${product.price}", fontSize = 20.sp, color = Color.Gray)
+        Text(text = "Description: ${product.description}", fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
     }
 }
-

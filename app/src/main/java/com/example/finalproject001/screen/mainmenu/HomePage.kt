@@ -35,12 +35,9 @@ fun HomePage(modifier: androidx.compose.ui.Modifier = Modifier, navController: N
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            items(
-                items = products,
-                itemContent = {
-                    ProductListItem(productData = it, navController)
-                }
-            )
+            items(products) { product ->
+                ProductListItem(productData = product, navController = navController)
+            }
         }
     }
 }
