@@ -34,7 +34,7 @@ import com.example.finalproject001.data.ProductData
 @Composable
 fun ItemScreen(
     navController: NavController,
-    productId: String // Extracted from navigation arguments
+    productId: String
 ) {
     val product = DataProvider.productList.find { it.id.toString() == productId }
 
@@ -78,7 +78,7 @@ fun ItemScreen(
 fun ItemDetails(product: ProductData) {
     Column(modifier = Modifier.padding(16.dp)) {
         Image(
-            painter = painterResource(id = product.productImageId), // ✅ Ensure correct image reference
+            painter = painterResource(id = product.productImageId),
             contentDescription = product.title,
             modifier = Modifier
                 .fillMaxWidth()
