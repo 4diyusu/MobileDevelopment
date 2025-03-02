@@ -34,19 +34,21 @@ import com.example.finalproject001.screen.mainmenu.AccountPage
 import com.example.finalproject001.screen.mainmenu.CartPage
 import com.example.finalproject001.screen.mainmenu.HomePage
 import com.example.finalproject001.screen.mainmenu.ServicesPage
+import com.example.finalproject001.viewmodel.CartViewModel
 
 
 @Composable
-fun MainMenuScreen(modifier : Modifier = Modifier, navController: NavController) {
+fun MainMenuScreen(modifier: Modifier = Modifier, navController: NavController) {
+    val cartViewModel = remember { CartViewModel() } // ✅ Define cartViewModel
 
     val navItemList = listOf(
-        NavItem("Home", Icons.Default.Home,0),
-        NavItem("Services", Icons.Default.Edit,0),
-        NavItem("Cart", Icons.Default.ShoppingCart,0),
-        NavItem("Account", Icons.Default.AccountCircle,0),
+        NavItem("Home", Icons.Default.Home, 0),
+        NavItem("Services", Icons.Default.Edit, 0),
+        NavItem("Cart", Icons.Default.ShoppingCart, 0),
+        NavItem("Account", Icons.Default.AccountCircle, 0),
     )
 
-    var selectedIndex by remember{
+    var selectedIndex by remember {
         mutableIntStateOf(0)
     }
 
@@ -56,14 +58,14 @@ fun MainMenuScreen(modifier : Modifier = Modifier, navController: NavController)
             NavigationBar {
                 navItemList.forEachIndexed { index, navItem ->
                     NavigationBarItem(
-                        selected =  selectedIndex == index,
+                        selected = selectedIndex == index,
                         onClick = {
                             selectedIndex = index
                         },
                         icon = {
                             BadgedBox(badge = {
-                                if(navItem.badgeCount>0)
-                                    Badge(){
+                                if (navItem.badgeCount > 0)
+                                    Badge {
                                         Text(text = navItem.badgeCount.toString())
                                     }
                             }) {
@@ -78,10 +80,15 @@ fun MainMenuScreen(modifier : Modifier = Modifier, navController: NavController)
             }
         },
     ) { innerPadding ->
-        ContentScreen(navController = navController,modifier = Modifier.padding(innerPadding), selectedIndex)
-
+        ContentScreen(
+            navController = navController,
+            cartViewModel = cartViewModel,
+            modifier = Modifier.padding(innerPadding),
+            selectedIndex = selectedIndex
+        )
     }
 }
+
 
 @Composable
 fun Badge(content: @Composable () -> Unit) {
@@ -89,11 +96,16 @@ fun Badge(content: @Composable () -> Unit) {
 
 
 @Composable
-fun ContentScreen(navController: NavController, modifier: Modifier = Modifier, selectedIndex : Int) {
-    when(selectedIndex){
-        0-> HomePage(modifier, navController)
-        1-> ServicesPage()
-        2-> CartPage(navController)
-        3-> AccountPage(navController)
+fun ContentScreen(
+    navController: NavController,
+    cartViewModel: CartViewModel,
+    modifier: Modifier = Modifier,
+    selectedIndex: Int
+) {
+    when (selectedIndex) {
+        0 -> HomePage(modifier, navController)
+        1 -> ServicesPage()
+        2 -> CartPage(navController, cartViewModel)
+        3 -> AccountPage(navController)
     }
 }

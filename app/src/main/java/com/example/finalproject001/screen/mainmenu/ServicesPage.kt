@@ -22,7 +22,7 @@ fun ServicesPage(modifier: Modifier = Modifier){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Notification Page",
+            text = "Services Page",
             fontSize = 40.sp,
             fontWeight = FontWeight.SemiBold,
             color = Color.White
