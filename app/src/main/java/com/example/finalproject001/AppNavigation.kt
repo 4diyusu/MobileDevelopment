@@ -45,7 +45,6 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         composable(Routes.checkoutScreen) {
             CheckOutScreen(modifier, navController)
         }
-        // ✅ Updated ItemScreen to accept a productId as an argument
         composable("${Routes.itemScreen}/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId") ?: "0"
             ItemScreen(navController = navController, productId = productId)
