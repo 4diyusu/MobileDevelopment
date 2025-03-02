@@ -2,6 +2,7 @@ package com.example.finalproject001
 
 import android.media.Image
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,9 +38,11 @@ fun ProductListItem(productData: ProductData, navController: NavController) {
         shape = RoundedCornerShape(corner = CornerSize(16.dp))
     ) {
         Row(
-            Modifier.clickable {
+            modifier = Modifier
+                .background(Color(0xFFABC0CE))
+                .clickable {
                 navController.navigate("${Routes.itemScreen}/${productData.id}")
-            }
+            },
         ) {
             ProductImage(productData = productData)
             Column(
@@ -49,7 +52,7 @@ fun ProductListItem(productData: ProductData, navController: NavController) {
                     .align(Alignment.CenterVertically)
             ) {
                 Text(text = productData.title, style = typography.titleMedium)
-                Text(text = "VIEW DETAIL", style = typography.bodyMedium)
+                Text(text = "View Details", style = typography.bodySmall)
             }
         }
     }

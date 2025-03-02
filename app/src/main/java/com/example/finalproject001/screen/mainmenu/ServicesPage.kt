@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun NotificationPage(modifier: androidx.compose.ui.Modifier = Modifier){
+fun ServicesPage(modifier: Modifier = Modifier){
     Column(
         modifier = modifier.fillMaxSize()
-            .background(Color(0xFF03A9F4)),
+            .background(Color(0xFF2D3536)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -29,7 +29,7 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
 
     Column(
         modifier = modifier.fillMaxSize()
-            .background(Color(0xFF03A9F4)),
+            .background(Color(0xFF2D3536)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
