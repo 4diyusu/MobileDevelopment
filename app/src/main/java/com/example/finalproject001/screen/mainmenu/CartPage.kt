@@ -23,7 +23,7 @@ import com.example.finalproject001.Routes
 fun CartPage(navController: NavController, modifier: androidx.compose.ui.Modifier = Modifier){
     Column(
         modifier = modifier.fillMaxSize()
-            .background(Color(0xFF03A9F4)),
+            .background(Color(0xFF2D3536)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

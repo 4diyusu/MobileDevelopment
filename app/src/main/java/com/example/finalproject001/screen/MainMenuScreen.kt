@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
@@ -32,7 +33,7 @@ import com.example.finalproject001.data.ProductData
 import com.example.finalproject001.screen.mainmenu.AccountPage
 import com.example.finalproject001.screen.mainmenu.CartPage
 import com.example.finalproject001.screen.mainmenu.HomePage
-import com.example.finalproject001.screen.mainmenu.NotificationPage
+import com.example.finalproject001.screen.mainmenu.ServicesPage
 
 
 @Composable
@@ -40,7 +41,7 @@ fun MainMenuScreen(modifier : Modifier = Modifier, navController: NavController)
 
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home,0),
-        NavItem("Notifications", Icons.Default.Notifications,0),
+        NavItem("Services", Icons.Default.Edit,0),
         NavItem("Cart", Icons.Default.ShoppingCart,0),
         NavItem("Account", Icons.Default.AccountCircle,0),
     )
@@ -91,7 +92,7 @@ fun Badge(content: @Composable () -> Unit) {
 fun ContentScreen(navController: NavController, modifier: Modifier = Modifier, selectedIndex : Int) {
     when(selectedIndex){
         0-> HomePage(modifier, navController)
-        1-> NotificationPage()
+        1-> ServicesPage()
         2-> CartPage(navController)
         3-> AccountPage(navController)
     }
