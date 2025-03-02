@@ -17,11 +17,12 @@ import androidx.navigation.navArgument
 import com.example.finalproject001.data.ProductData
 import com.example.finalproject001.screen.ItemScreen
 import com.example.finalproject001.screen.mainmenu.HomePage
+import com.example.finalproject001.viewmodel.CartViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier) {
+fun AppNavigation(modifier: Modifier = Modifier, cartViewModel: CartViewModel) {
     val navController = rememberNavController()
     val isLoggedIn = Firebase.auth.currentUser != null
     val firstPage = if (isLoggedIn) Routes.mainmenuScreen else Routes.greetingScreen
@@ -47,7 +48,11 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         }
         composable("${Routes.itemScreen}/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId") ?: "0"
-            ItemScreen(navController = navController, productId = productId)
+            ItemScreen(
+                navController = navController,
+                productId = productId,
+                cartViewModel = cartViewModel
+            )
         }
     }
 }

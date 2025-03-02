@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +18,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,13 +32,16 @@ import com.example.finalproject001.MainActivity
 import com.example.finalproject001.ProductListItem
 import com.example.finalproject001.data.DataProvider
 import com.example.finalproject001.data.ProductData
+import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun ItemScreen(
     navController: NavController,
-    productId: String
+    productId: String,
+    cartViewModel: CartViewModel
 ) {
     val product = DataProvider.productList.find { it.id.toString() == productId }
+    var quantity by remember { mutableStateOf(1) } // Tracks quantity selection
 
     if (product != null) {
         Column(
@@ -59,7 +64,37 @@ fun ItemScreen(
             Text(text = "Price: Php ${product.price}", fontSize = 18.sp, color = Color.Gray)
             Text(text = product.description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
 
-            Spacer(modifier = Modifier.height(20.dp))
+            // Quantity Selector
+            Row(
+                modifier = Modifier.padding(vertical = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(onClick = { if (quantity > 1) quantity-- }) {
+                    Text(text = "-")
+                }
+                Text(
+                    text = quantity.toString(),
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Button(onClick = { quantity++ }) {
+                    Text(text = "+")
+                }
+            }
+
+            // Add to Cart Button
+            Button(
+                onClick = {
+                    cartViewModel.addToCart(product, quantity) // Add item to cart
+                    navController.popBackStack() // Go back after adding
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Add to Cart")
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             Button(onClick = { navController.popBackStack() }) {
                 Text(text = "Back to Products")
             }
@@ -73,6 +108,7 @@ fun ItemScreen(
         )
     }
 }
+
 
 @Composable
 fun ItemDetails(product: ProductData) {
