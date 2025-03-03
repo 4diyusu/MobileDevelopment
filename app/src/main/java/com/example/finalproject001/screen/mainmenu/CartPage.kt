@@ -1,14 +1,17 @@
 package com.example.finalproject001.screen.mainmenu
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
@@ -24,15 +27,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.finalproject001.Routes
 import com.example.finalproject001.data.CartItem
 import com.example.finalproject001.viewmodel.CartViewModel
+import kotlin.math.absoluteValue
 
 
 @Composable
-fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
-    val cartItems by remember { mutableStateOf(cartViewModel.cartItems) }
+fun CartPage(navController: NavController, cartViewModel: CartViewModel = viewModel()) {
+    val cartItems by cartViewModel.cartItems.collectAsState()
     val totalPrice = cartItems.sumOf { it.product.price * it.quantity }
 
     Column(
@@ -50,8 +55,13 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
             color = Color.White
         )
 
-        LazyColumn {
-            items(cartViewModel.cartItems) { cartItem ->
+        Log.d("CartPage", "Cart Items: ${cartItems.size}")
+
+        LazyColumn(
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            items(cartItems) { cartItem ->
+                Log.d("CartPage", "Displaying cart item: ${cartItem.product.title} - Qty: ${cartItem.quantity}")
                 CartItemRow(cartItem = cartItem, cartViewModel = cartViewModel)
             }
         }
@@ -59,7 +69,7 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Total: PHP $totalPrice",
+            text = "Total: PHP ${totalPrice.absoluteValue}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
