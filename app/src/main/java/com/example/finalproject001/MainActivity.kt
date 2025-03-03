@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,17 +23,19 @@ import com.example.finalproject001.screen.LoginScreen
 import com.example.finalproject001.screen.MainMenuScreen
 import com.example.finalproject001.screen.RegistrationScreen
 import com.example.finalproject001.screen.mainmenu.HomePage
+import com.example.finalproject001.viewmodel.CartViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        WindowCompat.setDecorFitsSystemWindows(window,false)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            Box(Modifier.safeDrawingPadding())
-            AppNavigation()
+            Box(Modifier.safeDrawingPadding()) {
+                AppNavigation()
+            }
         }
     }
 }
