@@ -13,14 +13,20 @@ import com.example.finalproject001.screen.RegistrationScreen
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject001.screen.ItemScreen
+import com.example.finalproject001.screen.mainmenu.CartPage
 import com.example.finalproject001.viewmodel.CartViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.composable
+import com.google.firebase.auth.ktx.auth
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val cartViewModel: CartViewModel = viewModel()
+    val cartViewModel: CartViewModel = hiltViewModel()
     val isLoggedIn = Firebase.auth.currentUser != null
     val firstPage = if (isLoggedIn) Routes.mainmenuScreen else Routes.greetingScreen
 
@@ -43,13 +49,12 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         composable(Routes.checkoutScreen) {
             CheckOutScreen(modifier, navController)
         }
+        composable(Routes.cartPage) {
+            CartPage(navController, cartViewModel)
+        }
         composable("${Routes.itemScreen}/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId") ?: "0"
-            ItemScreen(
-                navController,
-                productId,
-                cartViewModel
-            )
+            ItemScreen(navController, productId, cartViewModel)
         }
     }
 }

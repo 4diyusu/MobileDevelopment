@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.hilt.android) apply true
+    id("kotlin-kapt")
 }
 
 android {
@@ -66,9 +68,17 @@ dependencies {
 
     val nav_version = "2.8.6"
 
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+}
 
+kapt {
+    correctErrorTypes = true
 }

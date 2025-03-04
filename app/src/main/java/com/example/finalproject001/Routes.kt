@@ -8,4 +8,5 @@ object Routes {
     var mainmenuScreen = "mainmenu_Screen"
     var checkoutScreen = "checkout_Screen"
     var itemScreen = "item_screen"
+    var cartPage = "cart_page"
 }

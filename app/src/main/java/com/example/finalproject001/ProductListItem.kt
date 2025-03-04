@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject001.data.DataProvider.product
 import com.example.finalproject001.data.ProductData
+import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun ProductListItem(productData: ProductData, navController: NavController) {

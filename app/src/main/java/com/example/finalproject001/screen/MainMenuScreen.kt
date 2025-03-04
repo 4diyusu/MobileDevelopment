@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Print
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
@@ -39,11 +40,11 @@ import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun MainMenuScreen(modifier: Modifier = Modifier, navController: NavController) {
-    val cartViewModel = remember { CartViewModel() } // ✅ Define cartViewModel
+    val cartViewModel = remember { CartViewModel() }
 
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home, 0),
-        NavItem("Services", Icons.Default.Edit, 0),
+        NavItem("Services", Icons.Default.Print, 0),
         NavItem("Cart", Icons.Default.ShoppingCart, 0),
         NavItem("Account", Icons.Default.AccountCircle, 0),
     )

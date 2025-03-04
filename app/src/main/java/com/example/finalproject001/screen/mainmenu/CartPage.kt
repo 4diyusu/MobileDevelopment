@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,13 +38,18 @@ import kotlin.math.absoluteValue
 
 
 @Composable
-fun CartPage(navController: NavController, cartViewModel: CartViewModel = viewModel()) {
-    val cartItems by cartViewModel.cartItems.collectAsState()
+fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
+    val cartItems = cartViewModel.cartItems.collectAsState().value
     val totalPrice = cartItems.sumOf { it.product.price * it.quantity }
+
+    Log.d("CartPage", "Rendering cart with ${cartItems.size} items")
+    cartItems.forEach { item ->
+        Log.d("CartPage", "Displaying cart item: ${item.product.title} - Qty: ${item.quantity}")
+    }
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color(0xFF2D3536))
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
@@ -55,13 +62,10 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel = viewMo
             color = Color.White
         )
 
-        Log.d("CartPage", "Cart Items: ${cartItems.size}")
-
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
             items(cartItems) { cartItem ->
-                Log.d("CartPage", "Displaying cart item: ${cartItem.product.title} - Qty: ${cartItem.quantity}")
                 CartItemRow(cartItem = cartItem, cartViewModel = cartViewModel)
             }
         }
@@ -69,7 +73,7 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel = viewMo
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Total: PHP ${totalPrice.absoluteValue}",
+            text = "Total: PHP ${totalPrice}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
@@ -96,15 +100,5 @@ fun CartItemRow(cartItem: CartItem, cartViewModel: CartViewModel) {
         Text(text = cartItem.product.title, color = Color.White)
         Text(text = "Qty: ${cartItem.quantity}", color = Color.White)
         Text(text = "PHP ${cartItem.product.price * cartItem.quantity}", color = Color.White)
-
-        Row {
-            IconButton(onClick = { cartViewModel.updateQuantity(cartItem.product.id, cartItem.quantity - 1) }) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = "Decrease Quantity")
-            }
-
-            IconButton(onClick = { cartViewModel.updateQuantity(cartItem.product.id, cartItem.quantity + 1) }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Increase Quantity")
-            }
-        }
     }
 }
