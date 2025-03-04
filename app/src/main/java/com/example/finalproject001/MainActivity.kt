@@ -24,7 +24,9 @@ import com.example.finalproject001.screen.MainMenuScreen
 import com.example.finalproject001.screen.RegistrationScreen
 import com.example.finalproject001.screen.mainmenu.HomePage
 import com.example.finalproject001.viewmodel.CartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

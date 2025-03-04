@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.finalproject001.ProductListItem
 import com.example.finalproject001.data.DataProvider
+import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun HomePage(modifier: androidx.compose.ui.Modifier = Modifier, navController: NavController){
