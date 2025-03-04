@@ -53,6 +53,7 @@ fun ItemScreen(
                     .height(250.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
+
             Text(text = product.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Text(text = "Price: Php ${product.price}", fontSize = 18.sp, color = Color.Gray)
             Text(text = product.description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))

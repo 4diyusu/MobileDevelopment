@@ -70,7 +70,6 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
