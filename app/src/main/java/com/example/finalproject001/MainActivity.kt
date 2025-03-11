@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +28,8 @@ import com.example.finalproject001.screen.mainmenu.HomePage
 import com.example.finalproject001.viewmodel.CartViewModel
 
 class MainActivity : ComponentActivity() {
+    private val cartViewModel: CartViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,10 +37,9 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val cartViewModel: CartViewModel by viewModels()
 
             Box(Modifier.safeDrawingPadding()) {
-                AppNavigation()
+                AppNavigation(androidx.compose.ui.Modifier, cartViewModel)
             }
         }
     }

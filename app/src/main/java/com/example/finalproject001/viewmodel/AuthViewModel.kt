@@ -24,27 +24,72 @@ class AuthViewModel : ViewModel(){
 
     }
 
-    fun signup(firstName : String, lastName : String, email : String, phone : String, username : String, password : String, onResult: (Boolean,String?)-> Unit){
+    fun signup(
+        firstName: String, lastName: String, email: String, phone: String, username: String, password: String,
+        onResult: (Boolean, String?) -> Unit
+    ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                if(it.isSuccessful){
-                    var userId = it.result?.user?.uid
+                if (it.isSuccessful) {
+                    val userId = it.result?.user?.uid ?: return@addOnCompleteListener
+                    val userModel = UserModel(firstName, lastName, email, phone, username, userId, userId)
 
-                    val userModel = UserModel(firstName,lastName,email,phone,username,password,userId!!)
-                    firestore.collection("users").document()
+                    // 🔥 Save user using UID as document ID
+                    firestore.collection("users").document(userId)
                         .set(userModel)
-                        .addOnCompleteListener{ dbTask->
-                            if(dbTask.isSuccessful){
-                                onResult(true,null)
-                            }else{
-                                onResult(false,"Something went wrong")
+                        .addOnCompleteListener { dbTask ->
+                            if (dbTask.isSuccessful) {
+                                onResult(true, null)
+                            } else {
+                                onResult(false, "Failed to save user in Firestore")
                             }
-
                         }
-
-                }else{
-                    onResult(false,it.exception?.localizedMessage)
+                } else {
+                    onResult(false, it.exception?.localizedMessage)
                 }
             }
     }
+
+
+    fun updateAccount(
+        firstName: String? = null,
+        lastName: String? = null,
+        phone: String? = null,
+        username: String? = null,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            onResult(false, "User is not authenticated")
+            return
+        }
+
+        val userId = currentUser.uid  // ✅ Get correct UID
+        val userRef = firestore.collection("users").document(userId)
+
+        val updateMap = mutableMapOf<String, Any>()
+        firstName?.let { updateMap["firstName"] = it }
+        lastName?.let { updateMap["lastName"] = it }
+        phone?.let { updateMap["phone"] = it }
+        username?.let { updateMap["username"] = it }
+
+        if (updateMap.isEmpty()) {
+            onResult(false, "No changes provided")
+            return
+        }
+
+        userRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                userRef.update(updateMap)
+                    .addOnSuccessListener { onResult(true, "Account updated successfully") }
+                    .addOnFailureListener { e -> onResult(false, "Update failed: ${e.localizedMessage}") }
+            } else {
+                onResult(false, "User document does not exist")
+            }
+        }.addOnFailureListener { e ->
+            onResult(false, "Failed to check document: ${e.localizedMessage}")
+        }
+    }
+
+
 }

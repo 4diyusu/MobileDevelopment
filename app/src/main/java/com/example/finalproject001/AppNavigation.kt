@@ -21,12 +21,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.example.finalproject001.screen.FilePickerScreen
+import com.example.finalproject001.screen.UpdateAccountScreen
 import com.google.firebase.auth.ktx.auth
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier) {
+fun AppNavigation(modifier: Modifier = Modifier, cartViewModel: CartViewModel) {
     val navController = rememberNavController()
-    val cartViewModel: CartViewModel = viewModel()
     val isLoggedIn = Firebase.auth.currentUser != null
     val firstPage = if (isLoggedIn) Routes.mainmenuScreen else Routes.greetingScreen
 
@@ -44,7 +44,10 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             LoginScreen(modifier, navController)
         }
         composable(Routes.mainmenuScreen) {
-            MainMenuScreen(modifier, navController, cartViewModel = cartViewModel)
+            MainMenuScreen(modifier, navController, cartViewModel)
+        }
+        composable(Routes.updateAccountScreen) {
+            UpdateAccountScreen(modifier, navController)
         }
         composable(Routes.checkoutScreen) {
             CheckOutScreen(modifier, navController)
@@ -52,7 +55,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         composable(Routes.cartPage) {
             CartPage(navController, cartViewModel)
         }
-        composable(Routes.filePickerScreen){
+        composable(Routes.filePickerScreen) {
             FilePickerScreen(modifier, navController)
         }
         composable("${Routes.itemScreen}/{productId}") { backStackEntry ->

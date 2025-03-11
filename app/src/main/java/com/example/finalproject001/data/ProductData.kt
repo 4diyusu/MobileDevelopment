@@ -9,4 +9,4 @@ data class ProductData(
     val price: Double,
     val description: String,
     val productImageId: Int
-) : Serializable
+)

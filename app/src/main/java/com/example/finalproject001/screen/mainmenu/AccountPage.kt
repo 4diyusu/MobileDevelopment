@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,9 +32,11 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
     Column(
         modifier = modifier.fillMaxSize()
             .background(Color(0xFF2D3536)),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(10.dp))
+
         Text(
             text = "Account Page",
             fontSize = 40.sp,
@@ -40,9 +44,30 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {
+        Button(modifier = Modifier.size(width = 180.dp, height = 40.dp),
+            onClick = {
+            navController.navigate(Routes.updateAccountScreen)
+        }){
+            Text(text = "Update Account Details")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(modifier = Modifier.size(width = 180.dp, height = 40.dp),
+            onClick = {
+            navController.navigate(Routes.updateAccountScreen)
+        }){
+            Text(text = "Change Passsword")
+        }
+
+        Spacer(modifier = Modifier.height(390.dp))
+
+        Button(modifier = Modifier
+            .size(width = 180.dp, height = 40.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+            onClick = {
             Firebase.auth.signOut()
             navController.navigate(Routes.loginScreen){
                 popUpTo(Routes.mainmenuScreen){inclusive = true}

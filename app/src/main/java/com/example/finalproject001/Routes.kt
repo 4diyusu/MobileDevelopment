@@ -10,4 +10,5 @@ object Routes {
     var itemScreen = "item_screen"
     var cartPage = "cart_page"
     var filePickerScreen = "file_picker_screen"
+    var updateAccountScreen = "update_account_screen"
 }

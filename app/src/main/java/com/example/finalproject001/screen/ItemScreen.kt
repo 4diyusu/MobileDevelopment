@@ -23,18 +23,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.finalproject001.data.CartItem
 import com.example.finalproject001.data.DataProvider
 import com.example.finalproject001.data.ProductData
 import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun ItemScreen(
-    navController: NavController,
+    navController: NavController? = null, // Nullable NavController
     productId: String,
     cartViewModel: CartViewModel
 ) {
     val product = DataProvider.productList.find { it.id.toString() == productId }
-    var quantity by remember { mutableIntStateOf(1) }
+    var quantity by remember { mutableIntStateOf(1) } // Fix state initialization
 
     if (product != null) {
         Column(
@@ -83,18 +84,25 @@ fun ItemScreen(
             Button(
                 onClick = {
                     Log.d("ItemScreen", "Clicked Add to Cart: ${product.title} - Qty: $quantity")
-                    cartViewModel.addToCart(product, quantity)
-                    Log.d("ItemScreen", "Cart size after adding: ${cartViewModel.cartItems.value.size}")
-                    navController.popBackStack()
+
+                    cartViewModel.addToCart(product) // ✅ Pass ProductData directly
+
+                    Log.d("ItemScreen", "Cart size after adding: ${cartViewModel.cartItems.value?.size}")
+
+                    navController?.popBackStack() // Ensure null safety
                 }
             ) {
                 Text(text = "Add to Cart")
             }
+            //com.example.finalproject001.data.ProductData
 
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            Button(onClick = { navController.popBackStack() }) {
+            Button(
+                onClick = { navController?.popBackStack() }, // Avoid crash if null
+                enabled = navController != null // Disable if `navController` is null
+            ) {
                 Text(text = "Back to Products")
             }
         }
