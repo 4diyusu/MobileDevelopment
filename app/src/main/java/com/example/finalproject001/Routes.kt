@@ -9,4 +9,5 @@ object Routes {
     var checkoutScreen = "checkout_Screen"
     var itemScreen = "item_screen"
     var cartPage = "cart_page"
+    var filePickerScreen = "file_picker_screen"
 }

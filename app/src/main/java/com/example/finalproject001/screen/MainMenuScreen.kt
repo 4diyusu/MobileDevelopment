@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject001.NavItem
@@ -39,8 +40,11 @@ import com.example.finalproject001.viewmodel.CartViewModel
 
 
 @Composable
-fun MainMenuScreen(modifier: Modifier = Modifier, navController: NavController) {
-    val cartViewModel = remember { CartViewModel() }
+fun MainMenuScreen(modifier: Modifier = Modifier,
+                   navController: NavController,
+                   cartViewModel: CartViewModel
+) {
+    val cartViewModel: CartViewModel = viewModel()
 
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home, 0),
@@ -105,7 +109,7 @@ fun ContentScreen(
 ) {
     when (selectedIndex) {
         0 -> HomePage(modifier, navController)
-        1 -> ServicesPage()
+        1 -> ServicesPage(modifier, navController)
         2 -> CartPage(navController, cartViewModel)
         3 -> AccountPage(navController)
     }

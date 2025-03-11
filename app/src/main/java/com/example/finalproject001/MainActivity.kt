@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
@@ -24,9 +25,7 @@ import com.example.finalproject001.screen.MainMenuScreen
 import com.example.finalproject001.screen.RegistrationScreen
 import com.example.finalproject001.screen.mainmenu.HomePage
 import com.example.finalproject001.viewmodel.CartViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +34,8 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            val cartViewModel: CartViewModel by viewModels()
+
             Box(Modifier.safeDrawingPadding()) {
                 AppNavigation()
             }

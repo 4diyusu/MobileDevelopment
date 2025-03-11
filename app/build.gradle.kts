@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.hilt.android) apply true
     id("kotlin-kapt")
 }
 
@@ -66,18 +65,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    val nav_version = "2.8.6"
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("androidx.activity:activity-ktx:1.8.2")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-}
-
-kapt {
-    correctErrorTypes = true
+    implementation("androidx.navigation:navigation-compose:2.8.8")
+    implementation("androidx.activity:activity-ktx:1.10.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 }

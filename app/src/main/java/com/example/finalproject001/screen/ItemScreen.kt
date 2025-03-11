@@ -63,7 +63,10 @@ fun ItemScreen(
                 modifier = Modifier.padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Button(onClick = { if (quantity > 1) quantity-- }) {
+                Button(
+                    onClick = { if (quantity > 1) quantity-- },
+                    enabled = quantity > 1
+                ) {
                     Text(text = "-")
                 }
                 Text(
@@ -81,12 +84,13 @@ fun ItemScreen(
                 onClick = {
                     Log.d("ItemScreen", "Clicked Add to Cart: ${product.title} - Qty: $quantity")
                     cartViewModel.addToCart(product, quantity)
+                    Log.d("ItemScreen", "Cart size after adding: ${cartViewModel.cartItems.value.size}")
                     navController.popBackStack()
-                },
-                modifier = Modifier.fillMaxWidth()
+                }
             ) {
                 Text(text = "Add to Cart")
             }
+
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -103,6 +107,7 @@ fun ItemScreen(
         )
     }
 }
+
 
 
 

@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
@@ -31,13 +33,9 @@ import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
-    val cartItems = cartViewModel.cartItems.collectAsState().value
-    val totalPrice = cartItems.sumOf { it.product.price * it.quantity }
+    val cartItems by cartViewModel.cartItems.collectAsState()
 
     Log.d("CartPage", "Rendering cart with ${cartItems.size} items")
-    cartItems.forEach { item ->
-        Log.d("CartPage", "Displaying cart item: ${item.product.title} - Qty: ${item.quantity}")
-    }
 
     Column(
         modifier = Modifier
@@ -54,9 +52,7 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
             color = Color.White
         )
 
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-        ) {
+        LazyColumn {
             items(cartItems) { cartItem ->
                 CartItemRow(cartItem = cartItem, cartViewModel = cartViewModel)
             }
@@ -65,20 +61,15 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Total: PHP ${totalPrice}",
+            text = "Total: PHP ${cartItems.sumOf { it.totalPrice }}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
-
-        Button(
-            onClick = { navController.navigate(Routes.checkoutScreen) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Proceed to Checkout", fontSize = 18.sp)
-        }
     }
 }
+
+
 
 @Composable
 fun CartItemRow(cartItem: CartItem, cartViewModel: CartViewModel) {
@@ -89,8 +80,44 @@ fun CartItemRow(cartItem: CartItem, cartViewModel: CartViewModel) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = cartItem.product.title, color = Color.White)
-        Text(text = "Qty: ${cartItem.quantity}", color = Color.White)
-        Text(text = "PHP ${cartItem.product.price * cartItem.quantity}", color = Color.White)
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = cartItem.product.title, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(text = "PHP ${cartItem.product.price}", color = Color.Gray)
+            Text(text = "Total: PHP ${cartItem.totalPrice}", color = Color.White)
+        }
+
+        // Quantity Control
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Button(onClick = {
+                if (cartItem.quantity > 1) {
+                    cartViewModel.updateQuantity(cartItem.product, cartItem.quantity - 1)
+                } else {
+                    cartViewModel.removeFromCart(cartItem.product)
+                }
+            }) {
+                Text(text = "-")
+            }
+
+            Text(
+                text = cartItem.quantity.toString(),
+                fontSize = 18.sp,
+                modifier = Modifier.padding(horizontal = 8.dp),
+                color = Color.White
+            )
+
+            Button(onClick = { cartViewModel.updateQuantity(cartItem.product, cartItem.quantity + 1) }) {
+                Text(text = "+")
+            }
+        }
+
+        // Remove Button
+        Button(
+            onClick = { cartViewModel.removeFromCart(cartItem.product) },
+            modifier = Modifier.padding(start = 8.dp)
+        ) {
+            Text(text = "Remove")
+        }
     }
 }
+
+
