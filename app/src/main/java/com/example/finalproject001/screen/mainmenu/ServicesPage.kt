@@ -50,12 +50,12 @@ fun ServicesPage(modifier: Modifier = Modifier, navController: NavController){
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Instructions:", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "1. Choose your file", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "2. Send the file to:", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "-Gmail: mrmem1003@gmail.com", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "-Facebook/Messenger: MRMEM", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "3. Proceed to Bookstore to claim your printed file", fontStyle = FontStyle.Normal, color = Color.White)
+        Text(text = "Instructions:", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, color = Color.White)
+        Text(text = "\n1. Choose your file" +
+                "\n2. Send the file to:" +
+                "\n-Gmail: mrmem1003@gmail.com" +
+                "\n-Facebook/Messenger: MRMEM" +
+                "\n3. Proceed to Bookstore to pay and claim your printed file", fontStyle = FontStyle.Normal, color = Color.White)
 
         Spacer(modifier = Modifier.height(20.dp))
 

@@ -36,7 +36,8 @@ fun HomePage(modifier: androidx.compose.ui.Modifier = Modifier, navController: N
     val products = remember { DataProvider.productList }
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .background(Color(0xFF2D3536)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

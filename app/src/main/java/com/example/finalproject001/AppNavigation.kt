@@ -24,6 +24,7 @@ import com.example.finalproject001.screen.FilePickerScreen
 import com.example.finalproject001.screen.ForgotPasswordScreen
 import com.example.finalproject001.screen.UpdateAccountScreen
 import com.example.finalproject001.screen.UpdatePasswordScreen
+import com.example.finalproject001.screen.mainmenu.AboutUsScreen
 import com.google.firebase.auth.ktx.auth
 
 @Composable
@@ -69,6 +70,9 @@ fun AppNavigation(modifier: Modifier = Modifier, cartViewModel: CartViewModel) {
         composable("${Routes.itemScreen}/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId") ?: "0"
             ItemScreen(navController, productId, cartViewModel)
+        }
+        composable(Routes.aboutUsPage) {
+            AboutUsScreen(navController)
         }
     }
 }

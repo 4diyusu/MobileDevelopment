@@ -62,7 +62,17 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
             Text(text = "Change Passsword")
         }
 
-        Spacer(modifier = Modifier.height(390.dp))
+        Spacer(modifier = Modifier.height(300.dp))
+
+        Button(modifier = Modifier.size(width = 180.dp, height = 40.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
+            onClick = {
+                navController.navigate(Routes.aboutUsPage)
+            }){
+            Text(text = "About Us")
+        }
+
+        Spacer(modifier = Modifier.height(40.dp))
 
         Button(modifier = Modifier
             .size(width = 180.dp, height = 40.dp),

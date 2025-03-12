@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +43,8 @@ fun ItemScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(Color(0xFF2D3536))
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -55,11 +58,11 @@ fun ItemScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = product.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(text = product.title, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
             Text(text = "Price: Php ${product.price}", fontSize = 18.sp, color = Color.Gray)
-            Text(text = product.description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
+            Text(text = product.description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp), color = Color.LightGray)
 
-            // Quantity Selector
+            // Quantity Buttons
             Row(
                 modifier = Modifier.padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -73,14 +76,15 @@ fun ItemScreen(
                 Text(
                     text = quantity.toString(),
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = Color.LightGray
                 )
                 Button(onClick = { quantity++ }) {
                     Text(text = "+")
                 }
             }
 
-            // Add to Cart Button
+            // Add-to-Cart Button
             Button(
                 onClick = {
                     Log.d("ItemScreen", "Clicked Add to Cart: ${product.title} - Qty: $quantity")
@@ -94,10 +98,8 @@ fun ItemScreen(
             ) {
                 Text(text = "Add to Cart")
             }
-            //com.example.finalproject001.data.ProductData
 
-
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Button(
                 onClick = { navController?.popBackStack() }, // Avoid crash if null

@@ -13,4 +13,5 @@ object Routes {
     var updateAccountScreen = "update_account_screen"
     var updatePasswordScreen = "update_password_screen"
     var forgotPasswordScreen = "forgot_password_screen"
+    var aboutUsPage = "about_us_page"
 }

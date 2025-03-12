@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import java.io.File
@@ -51,26 +52,43 @@ fun FilePickerScreen(modifier: Modifier, navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF2D3536)),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "NOTE:", fontStyle = FontStyle.Normal, fontWeight = FontWeight.SemiBold, color = Color.White)
-        Text(text = "-Please select proper file.", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "-Do not forget to inform the clerk of your print details.", fontStyle = FontStyle.Normal, color = Color.White)
-        Text(text = "-You may exit the page after sending.", fontStyle = FontStyle.Normal, color = Color.White)
+        Spacer(modifier = Modifier.height(30.dp))
+        Text(
+            text = "Select File",
+            fontSize = 40.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White
+        )
+        Spacer(modifier = Modifier.height(100.dp))
+
+        Text(text = "NOTE:", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, color = Color.White)
+        Text(text = "\n-Please select proper file." +
+                "\n-Do not forget to inform the clerk of your print details." +
+                "\n-Gmail: mrmem1003@gmail.com" +
+                "\n-Facebook/Messenger: MRMEM" +
+                "\n-You may exit the page after sending.", fontStyle = FontStyle.Normal, color = Color.White)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { pickFileLauncher.launch("*/*") },
-            Modifier.width(140.dp)) {
+        Button(
+            modifier = Modifier
+                .size(width = 180.dp, height = 40.dp),
+            onClick = { pickFileLauncher.launch("*/*") },
+            ) {
             Text("Pick a File", fontStyle = FontStyle.Normal)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(256.dp))
 
-        Button(onClick = {
-            navController.navigate(Routes.mainmenuScreen)
-        }, Modifier.width(140.dp)){
+        Button(modifier = Modifier
+            .size(width = 180.dp, height = 40.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+            onClick = {
+            navController.navigate(Routes.mainmenuScreen) }
+        ) {
             Text(text = "Cancel", fontStyle = FontStyle.Normal)
         }
 
