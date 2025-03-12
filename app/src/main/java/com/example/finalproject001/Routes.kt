@@ -11,4 +11,6 @@ object Routes {
     var cartPage = "cart_page"
     var filePickerScreen = "file_picker_screen"
     var updateAccountScreen = "update_account_screen"
+    var updatePasswordScreen = "update_password_screen"
+    var forgotPasswordScreen = "forgot_password_screen"
 }

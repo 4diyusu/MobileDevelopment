@@ -57,7 +57,7 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
 
         Button(modifier = Modifier.size(width = 180.dp, height = 40.dp),
             onClick = {
-            navController.navigate(Routes.updateAccountScreen)
+            navController.navigate(Routes.updatePasswordScreen)
         }){
             Text(text = "Change Passsword")
         }

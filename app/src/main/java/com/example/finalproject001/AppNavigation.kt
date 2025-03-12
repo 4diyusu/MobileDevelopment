@@ -21,7 +21,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.example.finalproject001.screen.FilePickerScreen
+import com.example.finalproject001.screen.ForgotPasswordScreen
 import com.example.finalproject001.screen.UpdateAccountScreen
+import com.example.finalproject001.screen.UpdatePasswordScreen
 import com.google.firebase.auth.ktx.auth
 
 @Composable
@@ -48,6 +50,12 @@ fun AppNavigation(modifier: Modifier = Modifier, cartViewModel: CartViewModel) {
         }
         composable(Routes.updateAccountScreen) {
             UpdateAccountScreen(modifier, navController)
+        }
+        composable(Routes.updatePasswordScreen) {
+            UpdatePasswordScreen(navController)
+        }
+        composable(Routes.forgotPasswordScreen) {
+            ForgotPasswordScreen(navController)
         }
         composable(Routes.checkoutScreen) {
             CheckOutScreen(modifier, navController)
