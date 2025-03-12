@@ -31,14 +31,18 @@ fun ServicesPage(modifier: Modifier = Modifier, navController: NavController){
     Column(
         modifier = modifier.fillMaxSize()
             .background(Color(0xFF2D3536)),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(20.dp))
+
         Text(text = "SERVICES PAGE",
             fontSize = 40.sp,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.SemiBold,
             color = Color.White)
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         Image(painter = painterResource(id = R.drawable.services_prices), contentDescription = "Services Prices",
             modifier = Modifier.fillMaxWidth(),

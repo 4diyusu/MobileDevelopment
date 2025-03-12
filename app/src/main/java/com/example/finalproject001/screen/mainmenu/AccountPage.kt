@@ -35,7 +35,7 @@ fun AccountPage(navController: NavController, modifier: androidx.compose.ui.Modi
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = "Account Page",
