@@ -12,6 +12,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -51,6 +53,7 @@ fun FilePickerScreen(modifier: Modifier, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(Color(0xFF2D3536)),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -81,17 +84,6 @@ fun FilePickerScreen(modifier: Modifier, navController: NavController) {
             Text("Pick a File", fontStyle = FontStyle.Normal)
         }
 
-        Spacer(modifier = Modifier.height(256.dp))
-
-        Button(modifier = Modifier
-            .size(width = 180.dp, height = 40.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
-            onClick = {
-            navController.navigate(Routes.mainmenuScreen) }
-        ) {
-            Text(text = "Cancel", fontStyle = FontStyle.Normal)
-        }
-
         Spacer(modifier = Modifier.height(16.dp))
 
         selectedFileUri?.let {
@@ -104,7 +96,18 @@ fun FilePickerScreen(modifier: Modifier, navController: NavController) {
             Text(text = "Selected File: ${selectedFileName ?: "Unknown"}", maxLines = 1)
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = { shareFile(context, it) }) {
-                Text("Share File")
+                Text("Send File")
+            }
+
+            Spacer(modifier = Modifier.height(140.dp))
+
+            Button(modifier = Modifier
+                .size(width = 180.dp, height = 40.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+                onClick = {
+                    navController.navigate(Routes.mainmenuScreen) }
+            ) {
+                Text(text = "Cancel", fontStyle = FontStyle.Normal)
             }
         }
     }
