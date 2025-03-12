@@ -10,41 +10,32 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import android.app.Application
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class CartViewModel(application: Application) : AndroidViewModel(application) {
-    private val _cartItems = MutableLiveData<List<CartItem>>(emptyList())
-    val cartItems: LiveData<List<CartItem>> = _cartItems
+class CartViewModel : ViewModel() {
+    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
+    val cartItems: StateFlow<List<CartItem>> = _cartItems
 
-    fun addToCart(product: ProductData) {
-        val currentItems = _cartItems.value.orEmpty().toMutableList()
-        val existingItem = currentItems.find { it.productName == product.title }
+    fun addToCart(item: CartItem) {
+        _cartItems.value = _cartItems.value + item
+    }
 
-        if (existingItem != null) {
-            // Update existing quantity
-            val updatedItems = currentItems.map {
-                if (it.productName == product.title) it.copy(quantity = it.quantity + 1)
-                else it
-            }
-            _cartItems.value = updatedItems
-        } else {
-            // Add new item
-            _cartItems.value = currentItems + CartItem(productName = product.title, quantity = 1)
+    fun updateQuantity(id: Int, newQuantity: Int) {
+        _cartItems.value = _cartItems.value.map {
+            if (it.id.toInt() == id) it.copy(quantity = newQuantity) else it
         }
     }
 
-    fun updateQuantity(productName: String, newQuantity: Int) {
-        val currentItems = _cartItems.value.orEmpty().toMutableList()
-        val updatedItems = currentItems.map {
-            if (it.productName == productName) it.copy(quantity = newQuantity) else it
-        }
-        _cartItems.value = updatedItems
+    fun removeFromCart(id: Int) {
+        _cartItems.value = _cartItems.value.filter { it.id.toInt() != id }
     }
 
-    fun removeFromCart(productName: String) {
-        val updatedItems = _cartItems.value.orEmpty().filter { it.productName != productName }
-        _cartItems.value = updatedItems
+    fun clearCart() {
+        _cartItems.value = emptyList() // Set cart items to an empty list
     }
 }
+
+

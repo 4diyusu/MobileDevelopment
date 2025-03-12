@@ -30,11 +30,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.finalproject001.Routes
 
 
 @Composable
 fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
-    val cartItems by cartViewModel.cartItems.observeAsState(emptyList()) // ✅ Corrected
+    val cartItems by cartViewModel.cartItems.collectAsState() // ✅ Ensures UI updates dynamically
 
     Column(
         modifier = Modifier
@@ -53,16 +54,24 @@ fun CartPage(navController: NavController, cartViewModel: CartViewModel) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn {
-            items(cartItems, key = { it.productName }) { cartItem -> // ✅ Proper recomposition
-                CartItemRow(cartItem, cartViewModel)
+        if (cartItems.isEmpty()) {
+            Text(
+                text = "Your cart is empty!",
+                fontSize = 18.sp,
+                color = Color.Gray
+            )
+        } else {
+            LazyColumn {
+                items(cartItems, key = { it.id }) { cartItem ->
+                    CartItemRow(cartItem, cartViewModel)
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { navController.navigate("checkout") }) {
-            Text(text = "Proceed to Checkout")
+            Button(onClick = { navController.navigate(Routes.checkoutScreen) }) {
+                Text(text = "Proceed to Checkout")
+            }
         }
     }
 }
@@ -77,7 +86,7 @@ fun CartItemRow(cartItem: CartItem, cartViewModel: CartViewModel) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "${cartItem.productName} - Qty: ${cartItem.quantity}",
+            text = "${cartItem.name} - Qty: ${cartItem.quantity}",
             fontSize = 16.sp,
             color = Color.White
         )
@@ -85,9 +94,9 @@ fun CartItemRow(cartItem: CartItem, cartViewModel: CartViewModel) {
         Row {
             Button(onClick = {
                 if (cartItem.quantity > 1) {
-                    cartViewModel.updateQuantity(cartItem.productName, cartItem.quantity - 1)
+                    cartViewModel.updateQuantity(cartItem.id.toInt(), cartItem.quantity - 1)
                 } else {
-                    cartViewModel.removeFromCart(cartItem.productName)
+                    cartViewModel.removeFromCart(cartItem.id.toInt()) // ✅ Removes item when quantity reaches 0
                 }
             }) {
                 Text(text = "-")
@@ -95,7 +104,7 @@ fun CartItemRow(cartItem: CartItem, cartViewModel: CartViewModel) {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Button(onClick = { cartViewModel.updateQuantity(cartItem.productName, cartItem.quantity + 1) }) {
+            Button(onClick = { cartViewModel.updateQuantity(cartItem.id.toInt(), cartItem.quantity + 1) }) {
                 Text(text = "+")
             }
         }

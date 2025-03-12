@@ -1,5 +1,6 @@
 package com.example.finalproject001.screen.mainmenu
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,11 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.finalproject001.R
 import com.example.finalproject001.Routes
 
 @Composable
@@ -53,6 +56,13 @@ fun AboutUsScreen(navController: NavController) {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.kevin),
+                    contentDescription = "Product Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(175.dp)
+                )
                 Text(
                     text = "Kevin Enerio",
                     fontSize = 22.sp,
@@ -89,6 +99,13 @@ fun AboutUsScreen(navController: NavController) {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.neil),
+                    contentDescription = "Product Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(175.dp)
+                )
                 Text(
                     text = "Neil Genesis Cunanan",
                     fontSize = 22.sp,
@@ -125,6 +142,13 @@ fun AboutUsScreen(navController: NavController) {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.emmy),
+                    contentDescription = "Product Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(175.dp)
+                )
                 Text(
                     text = "Professor: Emmy Grace Requillo",
                     fontSize = 22.sp,
@@ -152,6 +176,8 @@ fun AboutUsScreen(navController: NavController) {
         Button(onClick = { navController.navigate(Routes.mainmenuScreen) }) {
             Text("Back to Main Menu")
         }
+
+        Spacer(modifier = Modifier.height(80.dp))
     }
 }
 

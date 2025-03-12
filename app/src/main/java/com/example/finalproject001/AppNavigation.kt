@@ -59,7 +59,7 @@ fun AppNavigation(modifier: Modifier = Modifier, cartViewModel: CartViewModel) {
             ForgotPasswordScreen(navController)
         }
         composable(Routes.checkoutScreen) {
-            CheckOutScreen(modifier, navController)
+            CheckOutScreen(modifier, navController, cartViewModel)
         }
         composable(Routes.cartPage) {
             CartPage(navController, cartViewModel)

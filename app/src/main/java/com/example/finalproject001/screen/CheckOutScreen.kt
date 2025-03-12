@@ -24,26 +24,38 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.finalproject001.R
 import com.example.finalproject001.Routes
+import com.example.finalproject001.viewmodel.CartViewModel
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.UUID
+import java.util.Date
+
 
 @Composable
-fun CheckOutScreen(modifier: Modifier = Modifier, navController: NavController){
-
+fun CheckOutScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    cartViewModel: CartViewModel // Pass the cartViewModel to get cart items
+) {
     val context = LocalContext.current
+    val db = FirebaseFirestore.getInstance()
+    val cartItems = cartViewModel.cartItems.value ?: emptyList()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-    ){
-        Button(onClick = {
-            navController.navigate(Routes.mainmenuScreen)
-        }, modifier = Modifier.align(Alignment.TopStart)){
+    ) {
+        Button(
+            onClick = { navController.navigate(Routes.mainmenuScreen) },
+            modifier = Modifier.align(Alignment.TopStart)
+        ) {
             Text(text = "Back", fontStyle = FontStyle.Italic)
         }
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -55,8 +67,37 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navController: NavController){
         Spacer(modifier = Modifier.height(80.dp))
 
         Button(onClick = {
-            Toast.makeText(context, "Check out Success!", Toast.LENGTH_SHORT).show()
-        }){
+            if (cartItems.isNotEmpty()) {
+                val transactionId = UUID.randomUUID().toString() // Generate unique ID
+                val transactionData = hashMapOf(
+                    "transactionId" to transactionId,
+                    "items" to cartItems.map { item ->
+                        mapOf(
+                            "id" to item.id,
+                            "name" to item.name,
+                            "quantity" to item.quantity,
+                            "price" to item.price
+                        )
+                    },
+                    "totalPrice" to cartItems.sumOf { it.price * it.quantity },
+                    "timestamp" to Date()
+                )
+
+                db.collection("transactions").document(transactionId)
+                    .set(transactionData)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Transaction Saved!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Thank you for your purchase!", Toast.LENGTH_LONG).show()
+                        cartViewModel.clearCart() // Clear cart after checkout
+                        navController.navigate(Routes.mainmenuScreen)
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(context, "Cart is empty!", Toast.LENGTH_SHORT).show()
+            }
+        }) {
             Text(text = "Purchase", fontStyle = FontStyle.Italic)
         }
     }

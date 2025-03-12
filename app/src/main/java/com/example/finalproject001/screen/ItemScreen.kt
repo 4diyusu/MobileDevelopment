@@ -1,6 +1,7 @@
 package com.example.finalproject001.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,12 +34,13 @@ import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
 fun ItemScreen(
-    navController: NavController? = null, // Nullable NavController
+    navController: NavController? = null,
     productId: String,
     cartViewModel: CartViewModel
 ) {
+    val context = LocalContext.current
     val product = DataProvider.productList.find { it.id.toString() == productId }
-    var quantity by remember { mutableIntStateOf(1) } // Fix state initialization
+    var quantity by remember { mutableStateOf(1) } // ✅ Fix state initialization
 
     if (product != null) {
         Column(
@@ -62,7 +65,7 @@ fun ItemScreen(
             Text(text = "Price: Php ${product.price}", fontSize = 18.sp, color = Color.Gray)
             Text(text = product.description, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp), color = Color.LightGray)
 
-            // Quantity Buttons
+            // Quantity Selection
             Row(
                 modifier = Modifier.padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -84,16 +87,25 @@ fun ItemScreen(
                 }
             }
 
-            // Add-to-Cart Button
+            // ✅ Updated Add to Cart Button
             Button(
                 onClick = {
                     Log.d("ItemScreen", "Clicked Add to Cart: ${product.title} - Qty: $quantity")
 
-                    cartViewModel.addToCart(product) // ✅ Pass ProductData directly
+                    // ✅ Convert ProductData to CartItem
+                    val cartItem = CartItem(
+                        id = product.id.toString(),
+                        name = product.title,
+                        price = product.price,
+                        quantity = quantity,
+                        imageRes = product.productImageId
+                    )
 
-                    Log.d("ItemScreen", "Cart size after adding: ${cartViewModel.cartItems.value?.size}")
+                    cartViewModel.addToCart(cartItem)
 
-                    navController?.popBackStack() // Ensure null safety
+                    Toast.makeText(context, "Item added to Cart", Toast.LENGTH_SHORT).show()
+
+                    navController?.popBackStack() // ✅ Navigate back safely
                 }
             ) {
                 Text(text = "Add to Cart")
@@ -102,8 +114,8 @@ fun ItemScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Button(
-                onClick = { navController?.popBackStack() }, // Avoid crash if null
-                enabled = navController != null // Disable if `navController` is null
+                onClick = { navController?.popBackStack() },
+                enabled = navController != null
             ) {
                 Text(text = "Back to Products")
             }
@@ -115,25 +127,5 @@ fun ItemScreen(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp)
         )
-    }
-}
-
-
-
-
-@Composable
-fun ItemDetails(product: ProductData) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Image(
-            painter = painterResource(id = product.productImageId),
-            contentDescription = product.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Product Name: ${product.title}", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Text(text = "Price: PHP ${product.price}", fontSize = 20.sp, color = Color.Gray)
-        Text(text = "Description: ${product.description}", fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
     }
 }

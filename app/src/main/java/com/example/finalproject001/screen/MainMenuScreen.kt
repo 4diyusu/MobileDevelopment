@@ -44,7 +44,7 @@ fun MainMenuScreen(modifier: Modifier = Modifier,
                    navController: NavController,
                    cartViewModel: CartViewModel
 ) {
-    val cartViewModel: CartViewModel = viewModel()
+    val cartItems by cartViewModel.cartItems.collectAsState()
 
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home, 0),
