@@ -142,25 +142,31 @@ fun RegistrationScreen(modifier: Modifier = Modifier, navController: NavControll
             val context = LocalContext.current
             Button(onClick = {
                 isLoading = true
-                if(password == cpassword){
-                    authViewModel.signup(firstName, lastName, email, phone, username, password){success,errorMessage->
-                        if(success){
-                            isLoading = false
-                            Toast.makeText(context,
-                                "Successful Registration!",
-                                Toast.LENGTH_SHORT).show()
-                            navController.navigate(Routes.loginScreen){
-                                popUpTo(Routes.getstartedScreen){inclusive = true}
+                if(firstName != "" || lastName != ""|| email != ""|| phone != ""|| username != ""|| password != ""){
+                    if(password == cpassword){
+                        authViewModel.signup(firstName, lastName, email, phone, username, password){success,errorMessage->
+                            if(success){
+                                isLoading = false
+                                Toast.makeText(context,
+                                    "Successful Registration!",
+                                    Toast.LENGTH_SHORT).show()
+                                navController.navigate(Routes.loginScreen){
+                                    popUpTo(Routes.getstartedScreen){inclusive = true}
+                                }
+
+                            }else{
+                                isLoading = false
+                                AppUtil.showToast(context,errorMessage?:"Something went wrong")
                             }
 
-                        }else{
-                            isLoading = false
-                            AppUtil.showToast(context,errorMessage?:"Something went wrong")
                         }
-
+                    }else{
+                        isLoading = false
+                        Toast.makeText(context, "Password does not match", Toast.LENGTH_SHORT).show()
                     }
                 }else{
-                    Toast.makeText(context, "Password does not match", Toast.LENGTH_SHORT).show()
+                    isLoading = false
+                    Toast.makeText(context, "Enter all fields", Toast.LENGTH_SHORT).show()
                 }
             },
                 enabled = !isLoading

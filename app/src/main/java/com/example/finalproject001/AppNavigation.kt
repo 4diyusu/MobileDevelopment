@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject001.screen.ItemScreen
 import com.example.finalproject001.screen.mainmenu.CartPage
 import com.example.finalproject001.viewmodel.CartViewModel
+import com.example.finalproject001.data.CartItem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import androidx.navigation.compose.NavHost
