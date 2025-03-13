@@ -98,17 +98,17 @@ fun FilePickerScreen(modifier: Modifier, navController: NavController) {
             Button(onClick = { shareFile(context, it) }) {
                 Text("Send File")
             }
+        }
 
-            Spacer(modifier = Modifier.height(140.dp))
+        Spacer(modifier = Modifier.height(140.dp))
 
-            Button(modifier = Modifier
-                .size(width = 180.dp, height = 40.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
-                onClick = {
-                    navController.navigate(Routes.mainmenuScreen) }
-            ) {
-                Text(text = "Cancel", fontStyle = FontStyle.Normal)
-            }
+        Button(modifier = Modifier
+            .size(width = 180.dp, height = 40.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+            onClick = {
+                navController.navigate(Routes.mainmenuScreen) }
+        ) {
+            Text(text = "Cancel", fontStyle = FontStyle.Normal)
         }
     }
 }
