@@ -18,6 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject001.data.ProductData
+import com.example.finalproject001.data.ProductRepository
+import com.example.finalproject001.data.ProductViewModel
 import com.example.finalproject001.screen.CheckOutScreen
 import com.example.finalproject001.screen.GetStartedScreen
 import com.example.finalproject001.screen.GreetingScreen
@@ -29,6 +31,9 @@ import com.example.finalproject001.viewmodel.CartViewModel
 
 class MainActivity : ComponentActivity() {
     private val cartViewModel: CartViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels {
+        ProductViewModelFactory(ProductRepository()) // Initialize with repository
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +42,8 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-
             Box(Modifier.safeDrawingPadding()) {
-                AppNavigation(androidx.compose.ui.Modifier, cartViewModel)
+                AppNavigation(modifier = Modifier, cartViewModel = cartViewModel, productViewModel = productViewModel)
             }
         }
     }

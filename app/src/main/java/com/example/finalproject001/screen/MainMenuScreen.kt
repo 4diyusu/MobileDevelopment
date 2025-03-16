@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Print
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -19,32 +16,32 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.finalproject001.NavItem
-import com.example.finalproject001.data.ProductData
+import com.example.finalproject001.ProductViewModelFactory
+import com.example.finalproject001.data.ProductRepository
+import com.example.finalproject001.data.ProductViewModel
+import com.example.finalproject001.viewmodel.CartViewModel
 import com.example.finalproject001.screen.mainmenu.AccountPage
 import com.example.finalproject001.screen.mainmenu.CartPage
 import com.example.finalproject001.screen.mainmenu.HomePage
 import com.example.finalproject001.screen.mainmenu.ServicesPage
-import com.example.finalproject001.viewmodel.CartViewModel
-
 
 @Composable
-fun MainMenuScreen(modifier: Modifier = Modifier,
-                   navController: NavController,
-                   cartViewModel: CartViewModel
+fun MainMenuScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    cartViewModel: CartViewModel
 ) {
     val cartItems by cartViewModel.cartItems.collectAsState()
+
+    // ✅ Initialize ProductViewModel correctly
+    val productViewModel: ProductViewModel = viewModel(
+        factory = ProductViewModelFactory(ProductRepository())
+    )
 
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home, 0),
@@ -88,27 +85,27 @@ fun MainMenuScreen(modifier: Modifier = Modifier,
         ContentScreen(
             navController = navController,
             cartViewModel = cartViewModel,
+            productViewModel = productViewModel, // ✅ Pass ProductViewModel
             modifier = Modifier.padding(innerPadding),
             selectedIndex = selectedIndex
         )
     }
 }
 
-
 @Composable
 fun Badge(content: @Composable () -> Unit) {
 }
-
 
 @Composable
 fun ContentScreen(
     navController: NavController,
     cartViewModel: CartViewModel,
+    productViewModel: ProductViewModel, // ✅ Accept ProductViewModel
     modifier: Modifier = Modifier,
     selectedIndex: Int
 ) {
     when (selectedIndex) {
-        0 -> HomePage(modifier, navController)
+        0 -> HomePage(modifier, productViewModel, navController) // ✅ Pass ProductViewModel correctly
         1 -> ServicesPage(modifier, navController)
         2 -> CartPage(navController, cartViewModel)
         3 -> AccountPage(navController)
