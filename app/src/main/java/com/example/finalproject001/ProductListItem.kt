@@ -1,37 +1,26 @@
 package com.example.finalproject001
 
-import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.finalproject001.data.DataProvider.product
-import com.example.finalproject001.data.ProductData
-import com.example.finalproject001.viewmodel.CartViewModel
+import coil.compose.AsyncImage
+import com.example.finalproject001.data.Product
 
 @Composable
-fun ProductListItem(productData: ProductData, navController: NavController) {
+fun ProductListItem(product: Product, navController: NavController) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -42,17 +31,17 @@ fun ProductListItem(productData: ProductData, navController: NavController) {
             modifier = Modifier
                 .background(Color(0xFFABC0CE))
                 .clickable {
-                navController.navigate("${Routes.itemScreen}/${productData.id}")
-            },
+                    navController.navigate("${Routes.itemScreen}/${product.id}")
+                },
         ) {
-            ProductImage(productData = productData)
+            ProductImage(product.imgUrl)
             Column(
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth()
                     .align(Alignment.CenterVertically)
             ) {
-                Text(text = productData.title, style = typography.titleMedium)
+                Text(text = product.name, style = typography.titleMedium)
                 Text(text = "View Details", style = typography.bodySmall)
             }
         }
@@ -60,11 +49,10 @@ fun ProductListItem(productData: ProductData, navController: NavController) {
 }
 
 @Composable
-private fun ProductImage(productData: ProductData){
-    Image(
-        painter = painterResource(id = productData.productImageId),
+private fun ProductImage(imgUrl: String) {
+    AsyncImage(
+        model = imgUrl, // Load image from URL
         contentDescription = null,
-        contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(8.dp)
             .size(84.dp)

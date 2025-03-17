@@ -2,6 +2,7 @@ package com.example.finalproject001.data
 
 import com.example.finalproject001.R
 
+/*
 object DataProvider{
     val product =
         ProductData(1, "CASIO FX-991ES", 1385.00,
@@ -884,4 +885,4 @@ object DataProvider{
                 "Packaging Size: 1 pc.",
             R.drawable.whiteboard_18x12),
     )
-}
+}*/

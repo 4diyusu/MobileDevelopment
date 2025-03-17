@@ -118,16 +118,23 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, aut
                 Toast.makeText(context, "Please enter Email and Password", Toast.LENGTH_SHORT).show()
                 return@Button
             }
-
-            authViewModel.login(username, password) { success, errorMessage ->
+            if (username == "admin" && password == "admin"){
                 isLoading = false
-                if (success) {
-                    Toast.makeText(context, "Successful Login!", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Routes.mainmenuScreen) {
-                        popUpTo(Routes.getstartedScreen) { inclusive = true }
+                Toast.makeText(context, "Successful ADMIN Login!", Toast.LENGTH_SHORT).show()
+                navController.navigate(Routes.adminPage) {
+                    popUpTo(Routes.getstartedScreen) { inclusive = true }
+                }
+            }else{
+                authViewModel.login(username, password) { success, errorMessage ->
+                    isLoading = false
+                    if (success) {
+                        Toast.makeText(context, "Successful Login!", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Routes.mainmenuScreen) {
+                            popUpTo(Routes.getstartedScreen) { inclusive = true }
+                        }
+                    } else {
+                        AppUtil.showToast(context, errorMessage ?: "Something went wrong")
                     }
-                } else {
-                    AppUtil.showToast(context, errorMessage ?: "Something went wrong")
                 }
             }
         }) {

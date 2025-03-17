@@ -14,4 +14,11 @@ object Routes {
     var updatePasswordScreen = "update_password_screen"
     var forgotPasswordScreen = "forgot_password_screen"
     var aboutUsPage = "about_us_page"
+    var adminPage = "admin_page"
+    var productManagementScreen = "product_management_screen"
+    var transactionScreen = "transaction_screen"
+    var userManagementScreen = "user_management_screen"
+    var adminOptionsScreen = "admin_options_screen"
+    var addProductScreen = "add_product_screen"
+    var editProductScreen = "edit_product_screen"
 }

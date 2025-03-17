@@ -31,18 +31,16 @@ import com.example.finalproject001.data.Product
 import com.example.finalproject001.data.ProductViewModel
 
 @Composable
-fun HomePage(modifier: Modifier,productViewModel: ProductViewModel, navController: NavController) {
-    val productList by productViewModel.products.collectAsState() // Observe product list
-    var searchQuery by remember { mutableStateOf("") } // State for search input
+fun HomePage(modifier: Modifier = Modifier, productViewModel: ProductViewModel, navController: NavController) {
+    val productList by productViewModel.products.collectAsState()
+    var searchQuery by remember { mutableStateOf("") }
 
-    // Filtered list based on search query
-    val filteredProducts = productList.filter {
-        it.name.contains(searchQuery, ignoreCase = true)
-    }
+    // Filter products based on search
+    val filteredProducts = productList.filter { it.name.contains(searchQuery, ignoreCase = true) }
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -52,7 +50,7 @@ fun HomePage(modifier: Modifier,productViewModel: ProductViewModel, navControlle
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        SearchBar(searchQuery) { searchQuery = it } // Search Bar
+        SearchBar(searchQuery) { searchQuery = it }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -60,8 +58,11 @@ fun HomePage(modifier: Modifier,productViewModel: ProductViewModel, navControlle
             Text(text = "No products found.", style = MaterialTheme.typography.bodyLarge)
         } else {
             LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxSize()
+                contentPadding = PaddingValues(bottom = 72.dp)
             ) {
                 items(filteredProducts) { product ->
                     ProductCard(product, navController)
@@ -75,14 +76,17 @@ fun HomePage(modifier: Modifier,productViewModel: ProductViewModel, navControlle
 fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
     OutlinedTextField(
         value = query,
-        onValueChange = { onQueryChanged(it) },
+        onValueChange = onQueryChanged,
         label = { Text("Search products...") },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { /* Handle search action if needed */ })
+        keyboardActions = KeyboardActions(onSearch = { /* Handle search */ })
     )
 }
+
 
 @Composable
 fun ProductCard(product: Product, navController: NavController) {
@@ -94,7 +98,7 @@ fun ProductCard(product: Product, navController: NavController) {
                 navController.navigate("${Routes.itemScreen}/${product.id}")
             },
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E))
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF949494))
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -114,6 +118,7 @@ fun ProductCard(product: Product, navController: NavController) {
             Column {
                 Text(text = product.name, fontSize = 18.sp, color = Color.White)
                 Text(text = "Php ${product.price}", fontSize = 14.sp, color = Color.Yellow)
+                Text(text = "VIEW DETAILS", fontSize = 14.sp, color = Color.DarkGray)
             }
         }
     }

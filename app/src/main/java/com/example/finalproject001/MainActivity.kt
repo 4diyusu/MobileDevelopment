@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.finalproject001.data.ProductData
+import com.example.finalproject001.data.Product
 import com.example.finalproject001.data.ProductRepository
 import com.example.finalproject001.data.ProductViewModel
 import com.example.finalproject001.screen.CheckOutScreen
@@ -27,13 +27,17 @@ import com.example.finalproject001.screen.LoginScreen
 import com.example.finalproject001.screen.MainMenuScreen
 import com.example.finalproject001.screen.RegistrationScreen
 import com.example.finalproject001.screen.mainmenu.HomePage
+import com.example.finalproject001.viewmodel.AdminViewModel
 import com.example.finalproject001.viewmodel.CartViewModel
+import com.example.finalproject001.viewmodel.TransactionViewModel
 
 class MainActivity : ComponentActivity() {
     private val cartViewModel: CartViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels {
-        ProductViewModelFactory(ProductRepository()) // Initialize with repository
+        ProductViewModelFactory(ProductRepository())
     }
+    private val adminViewModel: AdminViewModel by viewModels()
+    private val transactionViewModel: TransactionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Box(Modifier.safeDrawingPadding()) {
-                AppNavigation(modifier = Modifier, cartViewModel = cartViewModel, productViewModel = productViewModel)
+                AppNavigation(
+                    modifier = Modifier,
+                    cartViewModel = cartViewModel,
+                    productViewModel = productViewModel,
+                    adminViewModel = adminViewModel,
+                    transactionViewModel = transactionViewModel,
+                )
             }
         }
     }

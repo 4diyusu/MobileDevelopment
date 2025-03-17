@@ -41,9 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.finalproject001.data.CartItem
-import com.example.finalproject001.data.DataProvider
 import com.example.finalproject001.data.Product
-import com.example.finalproject001.data.ProductData
 import com.example.finalproject001.viewmodel.CartViewModel
 
 @Composable
@@ -69,8 +67,8 @@ fun ItemScreen(navController: NavController, product: Product?, cartViewModel: C
             .fillMaxSize()
             .background(Color(0xFF2D3536))
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally, // Center contents
-        verticalArrangement = Arrangement.Top // Center vertically
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(
             model = product.imgUrl,
@@ -79,6 +77,7 @@ fun ItemScreen(navController: NavController, product: Product?, cartViewModel: C
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
+                .clip(RoundedCornerShape(8.dp))
         )
 
         Spacer(modifier = Modifier.height(16.dp))

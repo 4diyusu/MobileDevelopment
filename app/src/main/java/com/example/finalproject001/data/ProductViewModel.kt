@@ -2,7 +2,6 @@ package com.example.finalproject001.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.finalproject001.data.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,24 +29,32 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
         }
     }
 
-    fun addProduct(product: Product) {
+    fun getProductById(productId: String): Product? {
+        return _products.value.find { it.id == productId } // ✅ Search in the fetched list
+    }
+
+    fun addProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         viewModelScope.launch {
-            repository.addProduct(product)
-            fetchProducts() // Refresh product list
+            repository.addProduct(product, {
+                fetchProducts() // Refresh product list after adding
+                onSuccess()
+            }, onFailure)
         }
     }
 
-    fun updateProduct(productId: String, updatedProduct: Product) {
+    fun updateProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         viewModelScope.launch {
-            repository.updateProduct(productId, updatedProduct)
-            fetchProducts() // Refresh product list
+            repository.updateProduct(product, {
+                fetchProducts() // Refresh product list after updating
+                onSuccess()
+            }, onFailure)
         }
     }
 
     fun deleteProduct(productId: String) {
         viewModelScope.launch {
             repository.deleteProduct(productId)
-            fetchProducts() // Refresh product list
+            fetchProducts() // Refresh product list after deletion
         }
     }
 }

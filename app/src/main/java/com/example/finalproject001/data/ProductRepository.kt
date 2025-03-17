@@ -17,7 +17,6 @@ class ProductRepository {
         }
     }
 
-    // 🔥 ADD THIS FUNCTION 🔥
     suspend fun getProductById(productId: String): Product? {
         return try {
             val doc = productCollection.document(productId).get().await()
@@ -27,12 +26,35 @@ class ProductRepository {
         }
     }
 
-    suspend fun addProduct(product: Product) {
-        productCollection.add(product).await()
+    fun getProductById(productId: String, onResult: (Product?) -> Unit) {
+        productCollection.document(productId).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val product = document.toObject(Product::class.java)?.copy(id = document.id)
+                    onResult(product)
+                } else {
+                    onResult(null)
+                }
+            }
+            .addOnFailureListener {
+                onResult(null)
+            }
     }
 
-    suspend fun updateProduct(productId: String, updatedProduct: Product) {
-        productCollection.document(productId).set(updatedProduct).await()
+    fun addProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val newProductRef = productCollection.document() // Generate unique ID
+        val productWithId = product.copy(id = newProductRef.id)
+
+        newProductRef.set(productWithId)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure(it) }
+    }
+
+    fun updateProduct(product: Product, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        productCollection.document(product.id)
+            .set(product) // ✅ Replaces existing data
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure(it) }
     }
 
     suspend fun deleteProduct(productId: String) {
