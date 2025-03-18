@@ -20,5 +20,4 @@ object Routes {
     var userManagementScreen = "user_management_screen"
     var adminOptionsScreen = "admin_options_screen"
     var addProductScreen = "add_product_screen"
-    var editProductScreen = "edit_product_screen"
 }

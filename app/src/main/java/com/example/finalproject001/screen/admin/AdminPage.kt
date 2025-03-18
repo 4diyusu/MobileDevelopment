@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingBag
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,10 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.finalproject001.data.ProductViewModel
-import com.example.finalproject001.screen.admin.AdminOptionsScreen
-import com.example.finalproject001.screen.admin.ProductsManagementScreen
-import com.example.finalproject001.screen.admin.TransactionsScreen
-import com.example.finalproject001.screen.admin.UsersManagementScreen
 import com.example.finalproject001.viewmodel.AdminViewModel
 import com.example.finalproject001.viewmodel.TransactionViewModel
 
@@ -70,7 +64,6 @@ fun AdminPage(navController: NavController, adminViewModel: AdminViewModel, prod
         )
     }
 }
-
 
 @Composable
 fun ContentScreen(

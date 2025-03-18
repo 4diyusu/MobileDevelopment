@@ -145,27 +145,28 @@ fun AppNavigation(modifier: Modifier = Modifier,
             val productId = backStackEntry.arguments?.getString("productId") ?: ""
             val product = productViewModel.getProductById(productId)
 
-            if (product != null) { // ✅ Ensure product is not null
+            if (product != null) {
                 EditProductScreen(
                     navController = navController,
                     productViewModel = productViewModel,
-                    product = product, // ✅ Ensure this is a Product object
+                    product = product,
                     onResult = { success ->
                         if (success) {
-                            navController.popBackStack() // ✅ Navigate back on success
+                            navController.popBackStack()
                         } else {
-                            println("Product update failed") // ✅ Handle failure
+                            println("Product update failed")
                         }
                     }
                 )
             } else {
-                println("Product not found") // ✅ Debugging output
+                println("Product not found")
             }
         }
         composable("transaction_details/{transactionId}") { backStackEntry ->
             val transactionId = backStackEntry.arguments?.getString("transactionId") ?: ""
             TransactionDetailsScreen(navController, transactionId, transactionViewModel)
         }
+
     }
 }
 
