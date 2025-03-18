@@ -1,10 +1,9 @@
 package com.example.finalproject001.screen.admin
 
-import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -15,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,7 +21,6 @@ import androidx.navigation.NavController
 import com.example.finalproject001.Routes
 import com.example.finalproject001.data.Product
 import com.example.finalproject001.data.ProductViewModel
-import com.example.finalproject001.viewmodel.AdminViewModel
 
 @Composable
 fun ProductsManagementScreen(
@@ -31,6 +28,7 @@ fun ProductsManagementScreen(
     productViewModel: ProductViewModel
 ) {
     val products = productViewModel.products.collectAsState(initial = emptyList()).value
+    val scrollState = rememberLazyListState()
 
     Scaffold(
         floatingActionButton = {
@@ -44,16 +42,19 @@ fun ProductsManagementScreen(
             }
         }
     ) { paddingValues ->
-        Column()
-        {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             Spacer(modifier = Modifier.size(10.dp))
-            Text(text = " PRODUCTS", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text(text = "PRODUCTS", fontSize = 28.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.size(10.dp))
+
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 56.dp)
-                    .padding(paddingValues)
+                state = scrollState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 56.dp)
             ) {
                 items(products) { product ->
                     ProductItem(
@@ -66,6 +67,8 @@ fun ProductsManagementScreen(
         }
     }
 }
+
+
 
 @Composable
 fun ProductCard(product: Product, onEdit: () -> Unit, onDelete: () -> Unit) {

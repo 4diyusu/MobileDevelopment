@@ -127,7 +127,7 @@ fun AppNavigation(modifier: Modifier = Modifier,
             AdminPage(navController, adminViewModel, productViewModel, transactionViewModel)
         }
         composable(Routes.userManagementScreen){
-            UsersManagementScreen()
+            UsersManagementScreen(navController)
         }
         composable(Routes.transactionScreen){
             TransactionsScreen(navController, transactionViewModel)

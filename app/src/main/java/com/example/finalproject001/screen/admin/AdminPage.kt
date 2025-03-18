@@ -82,7 +82,7 @@ fun ContentScreen(
     selectedIndex: Int
 ) {
     when (selectedIndex) {
-        0 -> UsersManagementScreen()
+        0 -> UsersManagementScreen(navController)
         1 -> TransactionsScreen(navController, transactionViewModel)
         2 -> ProductsManagementScreen(navController, productViewModel)
         3 -> AdminOptionsScreen(navController)
